@@ -21,21 +21,7 @@ class Solver : BaseSolver(year = 2022, day = 1) {
         println("Most weight carries by top 3 elves: $topThreeElvesCapacity")
     }
 
-    private fun getElfCapacities(): List<Int> {
-        var elfIndex = 0
-        var elfCounter = 0
-
-        return input.fold(mutableMapOf<Int, Int>()) { acc, item ->
-            if (item.isBlank()) {
-                acc[elfIndex] = elfCounter
-
-                elfIndex++
-                elfCounter = 0
-            } else {
-                elfCounter += item.toInt()
-            }
-            acc
-        }.values.toList()
-    }
+    private fun getElfCapacities(): List<Int> =
+        input.split { it.isBlank() }.map { it -> it.sumOf { it.toInt() } }
 
 }

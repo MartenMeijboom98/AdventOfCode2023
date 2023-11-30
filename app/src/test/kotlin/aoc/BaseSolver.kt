@@ -32,6 +32,15 @@ abstract class BaseSolver(
         input = response.body().toList()
     }
 
+    fun <T> List<T>.split(predicate: (T) -> Boolean): List<List<T>> {
+        val idx = this.indexOfFirst(predicate)
+        return if (idx == -1) {
+            listOf(this)
+        } else {
+            return listOf(this.take(idx)) + this.drop(idx + 1).split(predicate)
+        }
+    }
+
     private fun buildUrl(year: Int, day: Int): String {
         return "$BASE_URL$year/day/$day/input"
     }
