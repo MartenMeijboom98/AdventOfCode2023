@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class Solver : BaseSolver(year = 2022, day = 1) {
 
     @Test
-    fun solve() {
+    fun `Solve day 1`() {
         solvePartOne()
         solvePartTwo()
     }
