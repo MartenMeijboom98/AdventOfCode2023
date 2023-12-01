@@ -17,7 +17,11 @@ class Solver : BaseSolver(day = 1) {
     }
 
     private fun solvePartTwo() {
-        val result = input.sumOf { "${it.replaceFirstWrittenDigit().findFirstDigit()}${it.replaceLastWrittenDigit().findLastDigit()}".toInt() }
+        val result = input.sumOf {
+            "${it.replaceFirstWrittenDigit().findFirstDigit()}${
+                it.replaceLastWrittenDigit().findLastDigit()
+            }".toInt()
+        }
         println("Sum of calibration values, including written digits, is $result")
     }
 
@@ -37,7 +41,7 @@ class Solver : BaseSolver(day = 1) {
     )
 
     private fun String.replaceFirstWrittenDigit() = writtenDigits.entries.minBy { writtenDigit ->
-        this.indexOf(writtenDigit.key).let { if (it < 0) Int.MAX_VALUE else it }
+        this.indexOf(writtenDigit.key).takeIf { it > 0 } ?: Int.MAX_VALUE
     }.let { this.replace(it.key, it.value.toString()) }
 
     private fun String.replaceLastWrittenDigit() = writtenDigits.entries.maxBy { writtenDigit ->
