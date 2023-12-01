@@ -17,11 +17,7 @@ class Solver : BaseSolver(day = 1) {
     }
 
     private fun solvePartTwo() {
-        val result = input.sumOf {
-            "${it.replaceFirstWrittenDigit().findFirstDigit()}${
-                it.replaceLastWrittenDigit().findLastDigit()
-            }".toInt()
-        }
+        val result = input.sumOf { "${it.replaceFirstWrittenDigit().findFirstDigit()}${it.replaceLastWrittenDigit().findLastDigit()}".toInt() }
         println("Sum of calibration values, including written digits, is $result")
     }
 
