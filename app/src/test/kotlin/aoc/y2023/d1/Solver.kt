@@ -12,18 +12,18 @@ class Solver : BaseSolver(day = 1) {
     }
 
     private fun solvePartOne() {
-        val result = input.sumOf { it.findCalibrationValueFromDigits() }
+        val result = input.sumOf { "${it.findFirstDigit()}${it.findLastDigit()}".toInt() }
         println("Sum of calibration values is $result")
     }
 
     private fun solvePartTwo() {
-        val result = input.sumOf { it.findCalibrationValueFromDigitsAndWrittenDigits() }
+        val result = input.sumOf {
+            "${it.replaceFirstWrittenDigit().findFirstDigit()}${
+                it.replaceLastWrittenDigit().findLastDigit()
+            }".toInt()
+        }
         println("Sum of calibration values, including written digits, is $result")
     }
-
-    private fun String.findCalibrationValueFromDigits() = "${this.findFirstDigit()}${this.findLastDigit()}".toInt()
-    private fun String.findCalibrationValueFromDigitsAndWrittenDigits() =
-        "${this.replaceFirstWrittenDigit().findFirstDigit()}${this.replaceLastWrittenDigit().findLastDigit()}".toInt()
 
     private fun String.findFirstDigit() = this.find { it.isDigit() }
     private fun String.findLastDigit() = this.findLast { it.isDigit() }
