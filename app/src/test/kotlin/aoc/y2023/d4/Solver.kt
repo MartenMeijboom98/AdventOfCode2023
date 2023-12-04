@@ -2,7 +2,7 @@ package aoc.y2023.d4
 
 import aoc.BaseSolver
 import org.junit.jupiter.api.Test
-import kotlin.math.min
+import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.math.pow
 
 class Solver : BaseSolver(day = 4) {
@@ -16,7 +16,15 @@ class Solver : BaseSolver(day = 4) {
 
     @Test
     fun `Solve part 2`() {
-        cards.forEach { it.makeCopies(cards) }
+        val copies = ConcurrentLinkedQueue(cards)
+
+        for (card in copies) {
+            card.getCopies(cards).forEach {
+                copies.add(it)
+            }
+        }
+
+        println(copies.size)
     }
 
 }
@@ -25,7 +33,6 @@ class Card(
     val number: Int,
     val winningNumbers: List<Int>,
     val myNumbers: List<Int>,
-    private val copies: MutableList<Card> = mutableListOf()
 ) {
 
     companion object {
@@ -44,26 +51,15 @@ class Card(
         }
     }
 
-    private fun copy(copyFrom: Card) =
-        Card(
-            number = this.number,
-            winningNumbers = copyFrom.winningNumbers,
-            myNumbers = copyFrom.myNumbers,
-        )
-
-    fun makeCopies(cards: List<Card>) {
-        val range = min(number + points(), cards.size)
-        copies.addAll((number..<range).map {
-            copy(cards[it])
-        })
-
-        for (copy in copies) {
-            copy.makeCopies(copies)
+    fun getCopies(cards: List<Card>): List<Card> =
+        (0..<winningNumbers()).map {
+            cards[it + number]
         }
-    }
 
-    fun points() = myNumbers.count { winningNumbers.contains(it) }.let { points ->
+    fun points() = winningNumbers().let { points ->
         if (points <= 1) points else 2.0.pow(points - 1).toInt()
     }
+
+    private fun winningNumbers() = myNumbers.count { winningNumbers.contains(it) }
 
 }
